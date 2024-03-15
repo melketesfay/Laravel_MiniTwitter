@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MiniTwitterController;
 
 Route::get('/{vue_capture?}', function () {
     return view('index');
 })->where('vue_capture', '[\/\w\.-]*');
 
 
-// Route::get('/', function () {
-//     return "Hallo from Melke";
-// });
+Route::post(
+    '/receive',
+    [MiniTwitterController::class, 'receiveData']
+);

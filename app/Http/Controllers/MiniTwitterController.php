@@ -40,4 +40,28 @@ class MiniTwitterController extends Controller
         // return response()->json($request->all());
         return response()->json($request);
     }
+
+    public function delete($id, MiniTwitter $tweet, Request $request)
+    {
+
+
+        // $tweetID = $tweet::find($request->id);
+
+        $tweet::find($id)->delete();
+        return response()->json($request->id);
+    }
+
+    public function update($id, MiniTwitter $tweet, Request $request)
+    {
+
+        $inputData = $request->validate([
+            'tweet_title' => 'required',
+            'tweet_text' => 'required'
+
+        ]);
+
+
+        $tweet::find($id)->update($inputData);
+        return response()->json($request->id);
+    }
 }

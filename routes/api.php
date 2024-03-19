@@ -18,3 +18,9 @@ Route::post('/receive', [MiniTwitterController::class, 'receiveData']);
 
 
 Route::post('/form', [MiniTwitterController::class, 'store']);
+
+
+Route::delete('/delete/{id}', [MiniTwitterController::class, 'delete']);
+
+
+Route::put('/edit/{id}', [MiniTwitterController::class, 'update']);

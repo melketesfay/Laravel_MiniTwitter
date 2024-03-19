@@ -74,15 +74,28 @@
             // Do something with the error
             setTimeout(() => {
                 let err =  error.response.data.errors;
-            errors.value.error_vorname = err.vorname[0];
+                let showErr = errors.value;
+
+                if (err.vorname) {
+                    showErr.error_vorname = err.vorname[0]??"";
+                }
+            
+                if (err.nachname) {
+                    showErr.error_nachname =err.nachname[0]??"";
+                }
       
-      errors.value.error_nachname = err.nachname[0];
-   
-      errors.value.error_email = err.email[0];
+   if (err.email) {
+    showErr.error_email = err.email[0]??"";
+   }
+if (err.tweet_title) {
+    showErr.error_title = err.tweet_title[0]??"";
+}
     
-      errors.value.error_title = err.tweet_title[0];
+      if (err.tweet_text) {
+        showErr.error_text = err.tweet_text[0]??"";
+      }
      
-      errors.value.error_text = err.tweet_text[0];
+      
                 
             }, 1);
       
@@ -97,16 +110,14 @@
 //         console.log(errors.value);
 // })
 
-setTimeout(() => {
-    console.log(errors.value);
-}, 5000);
+
 
 </script>
 
 <template>
     <div>
-        <h1>HOME</h1>
-        <router-link to="/test">Link zur Test Seite</router-link>
+        <h1>Tweet</h1>
+        <router-link to="/edit">Link zur Test Seite</router-link>
         <button @click.prevent="sendValue">Send Data To BackEnd</button>
         <button @click.prevent="getValue">Get Data from BackEnd</button>
         <p v-if="response">{{ response.data }}</p>
@@ -116,19 +127,19 @@ setTimeout(() => {
         <form action="" method="post" @submit.prevent="sendFromData"> 
             <label for="vorname">vorname</label>
             <input type="text" name="vorname" id="vorname" v-model="data.vorname">
-            <p>{{ errors.error_vorname  }}</p>
+            <p>{{ errors.error_vorname ??'' }}</p>
             <label for="nachname">nachname</label>
             <input type="text" name="nachname" id="nachname" v-model="data.nachname">
-            <p>{{ errors.error_nachname }}</p>
+            <p>{{ errors.error_nachname ??''}}</p>
             <label for="email">email</label>
             <input type="email" name="email" id="email" v-model="data.email">
-            <p>{{ errors.error_email }}</p>
+            <p>{{ errors.error_email ??''}}</p>
             <label for="tweet_title">title</label>
             <input type="text" name="tweet_title" id="tweet_title" v-model="data.tweet_title">
-            <p>{{ errors.error_title }}</p>
+            <p>{{ errors.error_title ??''}}</p>
             <label for="tweet_text">Tweet</label>
             <input type="text" name="tweet_text" id="tweet_text" v-model="data.tweet_text">
-            <p>{{ errors.error_text }}</p>
+            <p>{{ errors.error_text ??''}}</p>
             <button type="submit" >submit</button>
         </form>
     </div>

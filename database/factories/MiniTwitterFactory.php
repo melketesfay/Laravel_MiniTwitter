@@ -25,7 +25,7 @@ class MiniTwitterFactory extends Factory
 
             'tweet_title' => $this->faker->sentence(),
 
-            'tweet_text' => $this->faker->sentence(4)
+            'tweet_text' => $this->faker->paragraph(4)
 
 
 

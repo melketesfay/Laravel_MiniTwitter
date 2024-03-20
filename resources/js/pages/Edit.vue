@@ -31,6 +31,13 @@ const data = ref({
 
 });
 
+const errors = ref({
+
+    'error_title': '',
+
+    'error_text': ''
+});
+
 const getValue = async () => {
     try {
 
@@ -58,8 +65,39 @@ const editTweet = async () => {
         window.location.replace("/");
     } catch (error) {
         // Do something with the error
-        console.log(error);
+        setTimeout(() => {
+            if (error.response == undefined) {
+                window.location.replace("/");
+            }
+
+
+            let err = error.response.data.errors;
+            let showErr = errors.value;
+
+
+            if (err.tweet_title) {
+                showErr.error_title = err.tweet_title[0] ?? "";
+            }
+
+            if (err.tweet_text) {
+                showErr.error_text = err.tweet_text[0] ?? "";
+            }
+
+
+
+        }, 10);
+
+        errors.value.error_vorname = "";
+
+        errors.value.error_nachname = "";
+
+        errors.value.error_email = "";
+
+        errors.value.error_title = "";
+        errors.value.error_text = "";
+
     }
+
 };
 
 
@@ -78,6 +116,7 @@ onMounted(() => {
             <div class="input_group">
                 <label for="tweet_title">Titel</label>
                 <input class="title" type="text" name="tweet_title" id="tweet_title" v-model="data.tweet_title">
+                <p class="error">{{ errors.error_title ?? '' }}</p>
             </div>
 
             <div class="input_group">
@@ -85,6 +124,7 @@ onMounted(() => {
                 <label for="tweet_text">Text</label>
                 <textarea class="tweet" type="text-" name="tweet_title" id="tweet_title" v-model="data.tweet_text">
                 </textarea>
+                <p class="error">{{ errors.error_text ?? '' }}</p>
             </div>
             <Button class="tw-update" @click.prevent="editTweet">Tweet updaten</Button>
         </div>
@@ -148,5 +188,17 @@ label {
 .tw-update {
     max-width: fit-content;
     background-color: #1D9BF0;
+}
+
+.error {
+    color: red;
+    margin: 0;
+}
+
+@media screen and (max-width: 400px) {
+    .container {
+        padding: 1rem;
+        margin-top: 2.5rem;
+    }
 }
 </style>

@@ -78,6 +78,7 @@ onMounted(() => {
 
 
 
+
 </script>
 
 
@@ -117,8 +118,6 @@ onMounted(() => {
 
 
 
-
-
 </template>
 
 <style scoped>
@@ -148,5 +147,12 @@ h2 {
     font-weight: bold;
     color: gray;
     margin-bottom: 2rem;
+}
+
+@media screen and (max-width: 400px) {
+    .container {
+        padding: 2rem;
+        margin-top: 3rem;
+    }
 }
 </style>

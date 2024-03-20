@@ -2,7 +2,7 @@
 import Tweet from '../components/Tweet.vue';
 import Button from '../components/Button.vue';
 import axios from "axios";
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 
 
 const responseData = ref();
@@ -36,6 +36,12 @@ onMounted(() => {
 
 
 
+// // Add dynamic changes to items by index
+// setTimeout(() => {
+//     let last_tw_cell = document.getElementsByClassName("index")[0].querySelectorAll(".tw-cell");
+//     last_tw_cell[last_tw_cell.length - 1].style.backgroundColor = "red";
+//     console.log(last_tw_cell[last_tw_cell.length - 1]);
+// }, 1000)
 
 </script>
 
@@ -77,7 +83,7 @@ onMounted(() => {
     margin: auto;
     align-items: center;
     gap: 1rem;
-
+    margin-bottom: 5rem;
 
 }
 

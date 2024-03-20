@@ -231,6 +231,7 @@ textarea {
     font-size: 1.6rem;
     border: 1px solid rgb(215, 214, 214);
     border-radius: 0.5rem;
+    min-height: 10rem;
 }
 
 input {

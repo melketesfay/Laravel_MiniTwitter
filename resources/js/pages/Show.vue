@@ -3,55 +3,58 @@
 import Tweet from '../components/Tweet.vue';
 import Button from '../components/Button.vue';
 import axios, { formToJSON } from "axios";
-import { ref, watch, onMounted, computed} from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
 
-console.log(route.params.id) 
+console.log(route.params.id)
 
 
 
 
 const responseData = ref();
 
-   
+
 const tw = ref()
 
-    const getValue = async () => {
-        try {
-
-            
-            let response= await axios.get("/api/test-me");
-            setTimeout(() => {
-          responseData.value = response.data;
-          tw.value = responseData.value.filter(e=>e.id == route.params.id )
-      }, 1000);
+const getValue = async () => {
+    try {
 
 
-        } catch (error) {
-            // Do something with the error
-            console.log(error);
-        }
-    };
+        let response = await axios.get("/api/test-me");
+
+        responseData.value = response.data;
+        responseData.value.forEach(e => {
+            e.created_at = e.created_at.split("T")[0].split("-").reverse().join(".")
+        })
+        tw.value = responseData.value.filter(e => e.id == route.params.id)
 
 
 
-    const tweetID = ref();
+    } catch (error) {
+        // Do something with the error
+        console.log(error);
+    }
+};
+
+
+
+const tweetID = ref();
 
 tweetID.value = route.params.id;
 
 console.log(tweetID.value);
 
-    const deleteTweet = async() => {
-        
+const deleteTweet = async () => {
 
-  if (confirm("Are you sure you want to delete this Tweet!")) {
-    try {
 
-    let deletedTweet = await axios.delete("/api/delete/"+tweetID.value,{"id":tweetID.value});
+    if (confirm("Are you sure you want to delete this Tweet!")) {
+        try {
+
+            let deletedTweet = await axios.delete("/api/delete/" + tweetID.value, { "id": tweetID.value });
             console.log(deletedTweet);
             alert("Deleted")
             window.location.replace("/");
@@ -59,40 +62,21 @@ console.log(tweetID.value);
             // Do something with the error
             console.log(error);
         }
-  } else {
-    
-  }
+    } else {
+
+    }
+
+};
 
 
 
 
-  
-    };
 
-
-
-
- 
-
-
-    onMounted(()=>{
-
+onMounted(() => {
     getValue();
-    
-
 })
 
 
- 
-
-  
-
-
-
-
-
-  
-    
 
 </script>
 
@@ -100,38 +84,69 @@ console.log(tweetID.value);
 
 <template>
 
+    <div class="container">
 
-<div v-if="tw">
-
-
-
-<h1>Single Tweet ID:{{ tw[0].id }}</h1>
-
-    
-<Tweet :title="tw[0].tweet_title" :date="tw[0].created_at" :text="tw[0].tweet_text"></Tweet>
-
-<router-link to="/" >Link zur Home Seite</router-link>
-
-<router-link :to="`/edit/${$route.params.id}`"><Button>Edit Tweet</Button></router-link>
-<Button @click.prevent="deleteTweet">Delete Tweet</Button>
+        <div v-if="tw" class="tw-single">
 
 
-<button @click.prevent="getValue">GET BACK TweetID</button>
-</div>
+
+            <h2>TWEET VOM {{ tw[0].created_at }}</h2>
 
 
-   
-<div v-else>
+            <Tweet :title="tw[0].tweet_title" :text="tw[0].tweet_text"></Tweet>
 
-    <h1>Loading Tweets</h1>
-</div> 
+            <div class="btn-group">
 
-    
-   
+                <router-link :to="`/edit/${$route.params.id}`"><Button>Tweet bearbeiten</Button></router-link>
+                <Button class="delete" @click.prevent="deleteTweet">Tweet löschen</Button>
+            </div>
+
+
+
+
+        </div>
+
+
+
+        <div v-else>
+
+            <h1>Loading Tweets</h1>
+        </div>
+    </div>
+
+
+
+
 
 
 </template>
 
 <style scoped>
+.container {
+    display: flex;
+    justify-content: center;
+    margin-top: 5rem;
+}
 
+.tw-single {
+    max-width: 400px;
+    justify-self: center;
+}
+
+.btn-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.delete {
+    background-color: #DF1313;
+
+}
+
+h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: gray;
+    margin-bottom: 2rem;
+}
 </style>

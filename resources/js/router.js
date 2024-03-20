@@ -17,6 +17,10 @@ const routes = [
         path: "/tweet/:id",
         component: () => import("./pages/Show.vue"),
     },
+    {
+        path: "/test",
+        component: () => import("./pages/Test.vue"),
+    },
 ];
 
 export default createRouter({

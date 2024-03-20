@@ -1,10 +1,10 @@
 <script setup>
-import {defineProps} from 'vue';
+import { defineProps } from 'vue';
 
 defineProps({
-  title: String,
-  date: String,
-  text:String
+    title: String,
+    date: String,
+    text: String
 })
 </script>
 
@@ -13,12 +13,12 @@ defineProps({
     <div class="tweet">
         <div class="tweet-head">
 
-<a href="" class="tweet-title">{{ title}}</a>
+            <a href="" class="tweet-title">{{ title }}</a>
 
-<a href="" class="tweet-date">{{ date }}</a>
+            <a href="" class="tweet-date">{{ date }}</a>
 
-</div>
-<p>{{ text }}</p>
+        </div>
+        <p class="tw-body">{{ text }}</p>
 
     </div>
 
@@ -27,18 +27,38 @@ defineProps({
 
 
 <style scoped>
-
-.tweet-head{
+.tweet-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
-   
+
+
 
 }
-.tweet{
-    width: 50%;
-   margin: auto;
+
+.tweet {
+    max-width: 400px;
+    margin: auto;
+    width: 100%;
 }
 
+a {
+    text-decoration: none;
+}
+
+.tweet-title {
+    color: black;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.tweet-date {
+    font-size: 1.2rem;
+    color: gray;
+}
+
+.tw-body {
+    font-size: 1.4rem;
+    color: rgb(50, 50, 50);
+}
 </style>

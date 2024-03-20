@@ -11,6 +11,9 @@ body{
     height: 100vh;
     overflow: scroll;
     margin: 0;
-    background-color: rgb(236, 233, 233);
+    background-color: rgb(243, 243, 243);
+
+    font-family: "Inter", sans-serif;
+  
 
 }

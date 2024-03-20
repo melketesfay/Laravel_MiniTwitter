@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Http\Request;
 use App\Models\MiniTwitter;
 
@@ -63,5 +64,27 @@ class MiniTwitterController extends Controller
 
         $tweet::find($id)->update($inputData);
         return response()->json($request->id);
+    }
+
+    // Try to return sorted data
+
+    public function sort(Request $request)
+    {
+        $tweets = QueryBuilder::for(MiniTwitter::class)
+            ->allowedFilters(['title', 'views'])
+            ->allowedSorts(['title', 'created_at', 'tweet_title', 'views', 'vorname'])
+            ->get();
+        // ->paginate($request->get('perPage', 5));
+        // return response()->json($tweets::all());
+        // return response()->json($tweets);
+
+        return $tweets;
+        // return MiniTwitter::latest()->get();
+    }
+
+    public function pagination(Request $request)
+    {
+
+        return (MiniTwitter::latest()->paginate(5));
     }
 }

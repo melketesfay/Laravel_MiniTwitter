@@ -27,14 +27,63 @@ const getValue = async () => {
 
 
 
+// Start Sorting test
+const getSortedData = async (url) => {
+
+
+
+    try {
+        let response = await axios.get(url);
+
+        responseData.value = response.data;
+        console.log(responseData.value);
+        responseData.value.forEach(e => {
+            e.created_at = e.created_at.split("T")[0].split("-").reverse().join(".")
+        });
+
+
+    } catch (error) {
+        // Do something with the error
+        console.log(error);
+    }
+};
+
+
+// End Sorting test
+
 onMounted(() => {
 
     getValue();
+    // getSortedData();
 
 
 })
 
 
+const sortingParameter = ref('');
+
+watch(sortingParameter, async (newParam, oldQuestion) => {
+
+    let urlParam = "";
+
+    switch (sortingParameter.value) {
+        case "by Author":
+            urlParam = "/api/tweet?sort=-vorname";
+            getSortedData(urlParam);
+            break;
+        case "by Date":
+            urlParam = "/api/tweet?sort=-created_at";
+            getSortedData(urlParam);
+            break;
+
+        case "by Title":
+            urlParam = "/api/tweet?sort=-tweet_title";
+            getSortedData(urlParam);
+
+        default:
+        // code block
+    }
+})
 
 // // Add dynamic changes to items by index
 // setTimeout(() => {
@@ -52,6 +101,18 @@ onMounted(() => {
 
             <h4>FEED VON</h4>
             <h2>Nachname Vorname</h2>
+            <div class="sort_box">
+                <span> Sort Tweets: {{ sortingParameter }}</span>
+
+                <select v-model="sortingParameter" class="sort_options">
+                    <option disabled value="">Please select one</option>
+                    <option>by Author</option>
+                    <option>by Date</option>
+                    <option>by Title</option>
+                </select>
+            </div>
+
+            <!-- <Button class="sort" @click.prevent="getSortedData">Sort Tweets</Button> -->
         </div>
 
 
@@ -76,6 +137,25 @@ onMounted(() => {
 </template>
 
 <style scoped>
+/* 
+Testing Sorting feauture
+*/
+.sort_box {
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+}
+
+.sort_options {
+    background-color: #1D9BF0;
+    justify-self: flex-end;
+    align-self: flex-end;
+    border: none;
+    padding: 0.2rem;
+    color: white;
+    border-radius: 0.3rem;
+}
+
 .index {
     display: flex;
     flex-direction: column;
@@ -90,6 +170,9 @@ onMounted(() => {
 .head {
     align-self: flex-start;
     margin-top: 5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 h2 {

@@ -24,3 +24,8 @@ Route::delete('/delete/{id}', [MiniTwitterController::class, 'delete']);
 
 
 Route::put('/edit/{id}', [MiniTwitterController::class, 'update']);
+
+
+Route::get('/tweet', [MiniTwitterController::class, 'sort']);
+
+Route::get('/pages', [MiniTwitterController::class, 'pagination']);

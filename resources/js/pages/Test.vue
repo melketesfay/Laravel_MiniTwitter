@@ -1,49 +1,73 @@
 <script setup>
-
+import axios from "axios";
 import { onMounted, ref } from 'vue';
+import { Bootstrap4Pagination } from 'laravel-vue-pagination';
+import { Bootstrap5Pagination } from 'laravel-vue-pagination';
+import { TailwindPagination } from 'laravel-vue-pagination';
+
+const laravelData = ref({});
+/* 
 
 
-    // const getValue = async () => {
-    //     try {
-
-            
-    //         let response= await axios.get("/api/test-me");
-    //         setTimeout(() => {
-    //       responseData.value = response.data;
-    //       tw.value = responseData.value.filter(e=>e.id == route.params.id )
-    //   }, 1000);
 
 
-    //     } catch (error) {
-    //         // Do something with the error
-    //         console.log(error);
-    //     }
-    // };
+import { ref } from 'vue';
+import { TailwindPagination } from 'laravel-vue-pagination';
 
+const laravelData = ref({});
 
-const fetchData = async()=>{
-
-    try {
-        let data = await fetch("/api/test-me")
-  .then((response) => response.json())
-  .then((data) => console.log(data));
-    } catch (error) {
-        console.log(error);
-    }
-
+const getResults = async (page = 1) => {
+    const response = await fetch(`https://example.com/results?page=${page}`);
+    laravelData.value = await response.json();
 }
 
-onMounted(()=>{
-    fetchData()
-})
+getResults();
+
+
+
+
+*/
+
+
+const fetchData = async (page = 1) => {
+
+
+    let res = await axios.get(`/api/pages?page=${page}`);
+
+
+
+    laravelData.value = await res;
+    console.log(laravelData.value)
+}
+
+// onMounted(() => {
+//     fetchData()
+// })
 
 </script>
 
-
 <template>
 
+    <div v-if="laravelData.data">
+        <div>
+            <ul>
+                <li v-for="post in laravelData.data.data" :key="post.id">{{ post.tweet_title }}</li>
+            </ul>
 
-<h1>Test Page</h1>
+            <TailwindPagination :data="laravelData" @pagination-change-page="fetchData" />
+        </div>
+
+
+
+    </div>
+
+    <div v-else>
+        <h1>No Data Found</h1>
+        <button @click.prevent="fetchData">Fetch</button>
+    </div>
+
+
 </template>
+
 
 <style scoped></style>

@@ -156,6 +156,8 @@ Testing Sorting feauture
     border-radius: 0.3rem;
 }
 
+
+
 .index {
     display: flex;
     flex-direction: column;
@@ -194,6 +196,9 @@ h4 {
     background-color: white;
     border-radius: 1rem;
     min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
 @media screen and (max-width: 400px) {

@@ -40,6 +40,9 @@ defineProps({
     max-width: 400px;
     margin: auto;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 a {
